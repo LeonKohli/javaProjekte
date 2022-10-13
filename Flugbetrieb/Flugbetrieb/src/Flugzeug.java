@@ -9,10 +9,23 @@ public class Flugzeug {
 
     //methoden
     void startet() {
+        if (aktuellerFlugplatz != null) {
+            aktuellerFlugplatz.aktuelleFlugzeuge.remove(this);
+            aktuellerFlugplatz = null;
+        }
+        else {
+            System.out.println("Flugzeug ist schon in der Luft");
+        }
 
     }
         
     void landet(Flugplatz ziel){
+        if (ziel.istPlatzFrei()){
+            ziel.aktuelleFlugzeuge.add(this);
+        }
+        else {
+            System.out.println("Flugplatz ist voll");
+        }
         
     }
     //konstruktoren

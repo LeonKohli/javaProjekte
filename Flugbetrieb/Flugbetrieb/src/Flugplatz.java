@@ -7,7 +7,7 @@ public class Flugplatz{
     String kürzel;
     String name;
     int maxFlugzeuge;
-    ArrayList<Flugzeug> aktuelleFlugzeuge = new ArrayList();
+    ArrayList<Flugzeug> aktuelleFlugzeuge = new ArrayList<Flugzeug>();
      
  
     //methoden
@@ -15,7 +15,9 @@ public class Flugplatz{
     void evakuierung() {
         System.out.println("ALAAAAAAAAAAAARM");
         //alle Flugzeuge müssen starten
-        
+        for (Flugzeug flugzeug : aktuelleFlugzeuge) {
+            flugzeug.startet();
+        }
     }
 
 
@@ -28,6 +30,14 @@ public class Flugplatz{
         return false;
         }
     }
+
+    void zeigeFlugzeuge(){
+        for (Flugzeug flugzeug : aktuelleFlugzeuge) {
+            System.out.println("Flugzeug: " + flugzeug.modell);
+        }
+    }
+
+
     
 
     //konstruktoren
