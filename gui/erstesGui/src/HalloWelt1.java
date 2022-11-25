@@ -5,6 +5,7 @@ public class HalloWelt1 {
 
 	JTextField wer; // die objekte, auf die die einzelnen methoden
 	JLabel gruss; // zugreifen müssen
+	JCheckBox gross;
 
 	public void starte() {
 
@@ -12,7 +13,7 @@ public class HalloWelt1 {
 		JFrame frame = new JFrame();
 		JLabel label = new JLabel();
 		JButton ok = new JButton();
-		JCheckBox check = new JCheckBox();
+		JCheckBox gross = new JCheckBox();
 		gruss = new JLabel(); // für die ausgabe
 		wer = new JTextField(); // für die eingabe
 
@@ -22,8 +23,8 @@ public class HalloWelt1 {
 		label.setText("Wie heißt Du?");
 		gruss.setText(" ");
 		gruss.setFont(new Font("Serif", Font.PLAIN, 20));
-		check.setText("dicke Schrift");
-		check.setFont(new Font("Serif", Font.BOLD, 20));
+		gross.setText("dicke Schrift");
+		gross.setFont(new Font("Serif", Font.BOLD, 20));
 
 		// insbesondere: eigenschaften des fensters
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,10 +36,18 @@ public class HalloWelt1 {
 		frame.add(wer, BorderLayout.CENTER);
 		frame.add(ok, BorderLayout.EAST);
 		frame.add(gruss, BorderLayout.NORTH);
-		frame.add(check, BorderLayout.SOUTH);
+		frame.add(gross, BorderLayout.SOUTH);
 
 		// fenster anzeigen
 		frame.setVisible(true);
+
+		// das Objekt bekommt Fokus
+		// markiert den Text im Textfeld
+		wer.addFocusListener(new java.awt.event.FocusAdapter() {
+			public void focusGained(java.awt.event.FocusEvent evt) {
+				wer.selectAll();
+			}
+		});
 
 		// die methode, die auf den button klick reagiert
 		ok.addActionListener(new java.awt.event.ActionListener() {
@@ -49,13 +58,13 @@ public class HalloWelt1 {
 		});
 
 		// die methode, die auf den checkbox klick reagiert
-		check.addActionListener(new java.awt.event.ActionListener() {
+		gross.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				if (check.isSelected()) {
-					// set the text to bold
+				if (gross.isSelected()) {
+					// text dick
 					gruss.setFont(new Font("Serif", Font.BOLD, 20));
 				} else {
-					// set the text to plain
+					// text normal
 					gruss.setFont(new Font("Serif", Font.PLAIN, 20));
 				}
 			}
