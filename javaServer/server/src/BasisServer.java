@@ -32,21 +32,26 @@ public class BasisServer {
     // Methoden
 
     void verbindungMitClient() { // die Verbindung zum Client
-        while (true) {
+        try {
+            // warte auf Client-Anfragen... und warte... und warte...
+            System.out.println("Server wartet am Port " + port + " auf Client-Anfragen");
+            Socket serverSocket = this.serverSocket.accept();
+            System.out.println("Server hat Client-Anfrage erhalten" + serverSocket.getInetAddress());
+            // vomClient = ... -> die Ohren
+            vomClient = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
 
+            // zumClient = ... -> der Bleistift
+            zumClient = new PrintWriter(serverSocket.getOutputStream(), true);
+
+            // schreibe Info zum Client und schicke mit flush los
+            zumClient.println("Hallo, ich bin der Server. Ich habe dich am " + LocalDateTime.now() + " empfangen.");
+            zumClient.flush();
+
+            // Verbindung schließen
+            serverSocket.close();
+        } catch (IOException e) {
+            System.out.println("Fehler beim Erzeugen des ServerSockets auf Port " + port);
         }
-
-        // warte auf Client-Anfragen... und warte... und warte...
-
-        // vomClient = ... -> die Ohren
-
-        // zumClient = ... -> der Bleistift
-
-        // schreibe Info zum Client und schicke mit flush los
-
-        // schreibeAntwort();
-
-        // Verbindung schließen
     }
 
     void permanenteVerbindungMitClient() { // endlose Verbindung
