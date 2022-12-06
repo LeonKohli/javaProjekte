@@ -1,0 +1,88 @@
+//Leon Kohlhaußen
+// 2022-12-06
+// 1.0
+//the basic server configuration
+
+import java.net.*;
+import java.io.*;
+
+public class BasisServer {
+
+    // die Eigenschaften
+
+    private ServerSocket serverSocket;
+    private BufferedReader vomClient; // die Ohren zum Hören
+    private PrintWriter zumClient; // der Bleistift zum Schreiben
+    private int port; // der Port für die Kommunikation
+
+    // Konstruktor
+
+    BasisServer(int port) { // der Konstruktor
+        this.port = port;
+        try {
+            this.serverSocket = new ServerSocket(port);
+        } catch (IOException e) {
+            System.out.println("Fehler beim Erzeugen des ServerSockets auf Port " + port);
+        }
+        System.out.println("Server läuft auf Port " + port);
+
+    }
+
+    // Methoden
+
+    void verbindungMitClient() { // die Verbindung zum Client
+        while (true) {
+
+        }
+
+        // warte auf Client-Anfragen... und warte... und warte...
+
+        // vomClient = ... -> die Ohren
+
+        // zumClient = ... -> der Bleistift
+
+        // schreibe Info zum Client und schicke mit flush los
+
+        // schreibeAntwort();
+
+        // Verbindung schließen
+    }
+
+    void permanenteVerbindungMitClient() { // ########################
+    }
+
+    /**
+     * Wird durch die einzelnen Server überschrieben - der "eigentliche" Job. <br/>
+     * Beachte: als abstrakte M. hier nicht möglich, da in verbindungMitClient()
+     * benutzt.
+     * 
+     * @param zumClient Der Bleistift des BasisServers ist gekapselt (private)
+     */
+    public void schreibeAntwort(PrintWriter zumClient) {
+    };
+
+    /**
+     * Unterschiedliches Verhalten beim Schreiben, aber gleiches
+     * Verhalten beim Hören -> deshalb beim BasisServer implementiert
+     * 
+     * @return Die vom Client gesendete Zeile als String
+     */
+    public String höreFrage() {
+        try { // zeilenweises Schreiben/Lesen, wie es zB von telnet praktiziert
+            return vomClient.readLine() + " ";
+        } catch (Exception ex) {
+            System.out.println("Sorry - Ohren verstopft...");
+            return " "; // Rückgabewert bei verstopften Ohren
+        }
+    }
+
+    /**
+     * Die vom Client gesendete Zeile wird an den Leerzeichen gesplittet (getrennt)
+     * 
+     * @return Die vom Client gesendete Zeile als Array mit Strings
+     */
+    public String[] höreFrageArray() { // z.B. 'zeige test.txt' oder 'nutze notenDB':
+        return höreFrage().split(" "); // der Befehl ist der Text bis zum Leerzeichen
+    }
+
+}
