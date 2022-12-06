@@ -5,6 +5,7 @@
 
 import java.net.*;
 import java.io.*;
+import java.time.LocalDateTime;
 
 public class BasisServer {
 
@@ -12,7 +13,7 @@ public class BasisServer {
 
     private ServerSocket serverSocket;
     private BufferedReader vomClient; // die Ohren zum Hören
-    private PrintWriter zumClient; // der Bleistift zum Schreiben
+    private PrintWriter zumClient; // der zum Schreiben auf dem Server
     private int port; // der Port für die Kommunikation
 
     // Konstruktor
@@ -48,7 +49,10 @@ public class BasisServer {
         // Verbindung schließen
     }
 
-    void permanenteVerbindungMitClient() { // ########################
+    void permanenteVerbindungMitClient() { // endlose Verbindung
+        while (true) {
+            verbindungMitClient();
+        }
     }
 
     /**
@@ -59,6 +63,9 @@ public class BasisServer {
      * @param zumClient Der Bleistift des BasisServers ist gekapselt (private)
      */
     public void schreibeAntwort(PrintWriter zumClient) {
+        LocalDateTime jetzt = LocalDateTime.now();
+        zumClient.println("Hallo, ich bin der BasisServer und es ist " + jetzt.toString());
+        zumClient.flush();
     };
 
     /**
@@ -71,7 +78,7 @@ public class BasisServer {
         try { // zeilenweises Schreiben/Lesen, wie es zB von telnet praktiziert
             return vomClient.readLine() + " ";
         } catch (Exception ex) {
-            System.out.println("Sorry - Ohren verstopft...");
+            System.out.println("Fehler beim Lesen vom Client");
             return " "; // Rückgabewert bei verstopften Ohren
         }
     }
