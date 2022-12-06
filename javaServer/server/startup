@@ -1,0 +1,1 @@
+cd "c:\home\GitHub\javaProjekte\javaServer\server\src\" && javac App.java && java App
