@@ -8,8 +8,8 @@
 ////////////////////////////////////////////////////////////////
 
 public class GameOfLife {
-    int x = 30; // x position zeile
-    int y = 30; // y position spalte
+    int x = 28; // x position zeile
+    int y = 28; // y position spalte
     boolean[][] grid = new boolean[x][y]; // grid
     boolean[][] gridNew = new boolean[x][y]; // grid2
     // die ausgabe
@@ -17,20 +17,19 @@ public class GameOfLife {
     String tot = " "; // tot
 
     // methoden
-    int anzahlNachbarn(int zeile, int spalte) { // anzahl der nachbarn
-        if (zeile > 0 && zeile < x && spalte > 0 && spalte < y) { // wenn die position innerhalb des arrays ist
-            return wertZelle(zeile, spalte - 1) + // links
-                    wertZelle(zeile, spalte + 1) + // rechts
-                    wertZelle(zeile - 1, spalte - 1) + // oben links
-                    wertZelle(zeile - 1, spalte + 1) + // oben rechts
-                    wertZelle(zeile + 1, spalte + 1) + // unten rechts
-                    wertZelle(zeile + 1, spalte - 1) + // unten links
-                    wertZelle(zeile - 1, spalte) + // oben
-                    wertZelle(zeile + 1, spalte); // unten
-        } else {
-            return 0;
+    int anzahlNachbarn(int zeile, int spalte) {
+        int count = 0;
+        if (zeile > 0 && zeile < x && spalte > 0 && spalte < y) {
+            for (int i = zeile - 1; i <= zeile + 1; i++) {
+                for (int j = spalte - 1; j <= spalte + 1; j++) {
+                    if (i >= 0 && i < x && j >= 0 && j < y) { // check if the cell is within the grid
+                        count += wertZelle(i, j);
+                    }
+                }
+            }
+            count -= wertZelle(zeile, spalte); // subtract the value of the current cell
         }
-
+        return count;
     }
 
     int wertZelle(int zeile, int spalte) { // gibt den wert der zelle zurück
@@ -41,23 +40,35 @@ public class GameOfLife {
         }
     }
 
-    void neueZelle(int zeile, int spalte) {
-        int anzahlNachbarn = anzahlNachbarn(zeile, spalte); // anzahl der nachbarn
-        if (grid[zeile][spalte]) { // wenn die zelle lebt
-            if (anzahlNachbarn < 2 || anzahlNachbarn > 3) { // wenn weniger als 2 oder mehr als 3 nachbarn
-                gridNew[zeile][spalte] = false; // dann stirbt die zelle
-            } else { // sonst
-                gridNew[zeile][spalte] = true; // bleibt sie leben
-            } // ende wenn
-        } else { // wenn die zelle tot ist
-            if (anzahlNachbarn == 3) { // wenn genau 3 nachbarn
-                gridNew[zeile][spalte] = true; // dann wird die zelle geboren
-            } else { // sonst
-                gridNew[zeile][spalte] = false; // bleibt sie tot
+    int nextState(int zeile, int spalte) {
+        int count = anzahlNachbarn(zeile, spalte);
+        if (wertZelle(zeile, spalte) == 0) { // cell is dead
+            if (count == 3) {
+                return 1; // cell becomes alive
+            } else {
+                return 0; // cell remains dead
+            }
+        } else { // cell is alive
+            if (count < 2 || count > 3) {
+                return 0; // cell dies
+            } else {
+                return 1; // cell remains alive
             }
         }
     }
 
+    void neueZelle(int zeile, int spalte) {
+        int next = nextState(zeile, spalte); // determine the next state of the cell
+        setzeZelle(zeile, spalte, next); // set the value of the cell to the next state
+    }
+
+    void setzeZelle(int zeile, int spalte, int wert) {
+        if (wert == 1) { // wenn der wert 1 ist
+            gridNew[zeile][spalte] = true; // setze die zelle auf lebendig
+        } else { // wenn der wert 0 ist
+            gridNew[zeile][spalte] = false; // setze die zelle auf tot
+        }
+    }
     // i ist die zeile
     // j ist die spalte
 

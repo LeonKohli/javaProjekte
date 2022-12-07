@@ -12,6 +12,7 @@ public class GameOfLifeFrame extends JFrame implements Runnable, MouseListener {
         // Set the size and title of the window
         setSize(width, height);
         setTitle("Game of Life");
+        setBackground(java.awt.Color.GRAY);
 
         // Create a GameOfLife instance and store it in the game field
         game = new GameOfLife();
