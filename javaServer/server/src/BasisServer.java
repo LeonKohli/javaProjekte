@@ -6,13 +6,16 @@
 import java.net.*;
 import java.io.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-public class BasisServer {
+public class BasisServer implements Runnable { // die Eigenschaften und das Verhalten der Klasse BasisServer (die
+                                               // Eigenschaften und das Verhalten der Klasse BasisServer werden
+                                               // durch die Schnittstelle Runnable definiert)
 
     // die Eigenschaften
 
     private ServerSocket serverSocket;
-    private BufferedReader vomClient; // die Ohren zum Hören
+    protected BufferedReader vomClient; // die Ohren zum Hören
     private PrintWriter zumClient; // der zum Schreiben auf dem Server
     private int port; // der Port für die Kommunikation
 
@@ -30,6 +33,9 @@ public class BasisServer {
     }
 
     // Methoden
+    public void run() { // die Methode run() wird durch die Schnittstelle Runnable definiert
+        permanenteVerbindungMitClient();
+    }
 
     void verbindungMitClient() { // die Verbindung zum Client
         try {
@@ -41,11 +47,17 @@ public class BasisServer {
             vomClient = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
 
             // zumClient = ... -> der Bleistift
-            zumClient = new PrintWriter(serverSocket.getOutputStream(), true);
-
-            // schreibe Info zum Client und schicke mit flush los
-            zumClient.println("Hallo, ich bin der Server. Ich habe dich am " + LocalDateTime.now() + " empfangen.");
+            zumClient = new PrintWriter(serverSocket.getOutputStream());
+            zumClient.println(">> ");
             zumClient.flush();
+            // schreibe Info zum Client und schicke mit flush los
+            schreibeAntwort(zumClient);
+            // LocalDateTime now = LocalDateTime.now();
+            // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy
+            // HH:mm:ss");
+            // String formatted = now.format(formatter);
+            // zumClient.println("Hallo, ich bin der BasisServer und es ist " + formatted);
+            // zumClient.flush();
 
             // Verbindung schließen
             serverSocket.close();
@@ -68,23 +80,25 @@ public class BasisServer {
      * @param zumClient Der Bleistift des BasisServers ist gekapselt (private)
      */
     public void schreibeAntwort(PrintWriter zumClient) {
-        LocalDateTime jetzt = LocalDateTime.now();
-        zumClient.println("Hallo, ich bin der BasisServer und es ist " + jetzt.toString());
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        String formatted = now.format(formatter);
+        zumClient.println("Hallo, ich bin der BasisServer und es ist " + formatted);
         zumClient.flush();
     };
 
     /**
      * Unterschiedliches Verhalten beim Schreiben, aber gleiches
-     * Verhalten beim Hören -> deshalb beim BasisServer implementiert
+     * Verhalten beim Hören -> deshalb beim basisServer implementiert
      * 
      * @return Die vom Client gesendete Zeile als String
      */
-    public String höreFrage() {
+    public String hoereFrage() {
         try { // zeilenweises Schreiben/Lesen, wie es zB von telnet praktiziert
-            return vomClient.readLine() + " ";
+            return vomClient.readLine();
         } catch (Exception ex) {
-            System.out.println("Fehler beim Lesen vom Client");
-            return " "; // Rückgabewert bei verstopften Ohren
+            System.out.println(" >> Fehler beim Lesen der Zeile vom Client");
+            return ""; // Rückgabewert bei verstopften Ohren
         }
     }
 
@@ -93,8 +107,7 @@ public class BasisServer {
      * 
      * @return Die vom Client gesendete Zeile als Array mit Strings
      */
-    public String[] höreFrageArray() { // z.B. 'zeige test.txt' oder 'nutze notenDB':
-        return höreFrage().split(" "); // der Befehl ist der Text bis zum Leerzeichen
+    public String[] hoereFrageArray() { // z.B. 'zeige test.txt' oder 'nutze notenDB':
+        return hoereFrage().split(" ");
     }
-
 }
