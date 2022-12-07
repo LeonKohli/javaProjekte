@@ -1,12 +1,6 @@
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
 public class GameOfLifeFrame extends JFrame implements Runnable, MouseListener {
     GameOfLife game;
@@ -74,11 +68,11 @@ public class GameOfLifeFrame extends JFrame implements Runnable, MouseListener {
             repaint();
 
             // Sleep for a short time to slow down the game
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            // try {
+            // Thread.sleep(100);
+            // } catch (InterruptedException e) {
+            // e.printStackTrace();
+            // }
         }
     }
 }
