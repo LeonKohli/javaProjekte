@@ -8,8 +8,8 @@
 ////////////////////////////////////////////////////////////////
 
 public class GameOfLife {
-    int x = 28; // x position zeile
-    int y = 28; // y position spalte
+    int x = 200; // x position zeile
+    int y = 200; // y position spalte
     boolean[][] grid = new boolean[x][y]; // grid
     boolean[][] gridNew = new boolean[x][y]; // grid2
     // die ausgabe
@@ -17,35 +17,35 @@ public class GameOfLife {
     String tot = " "; // tot
 
     // methoden
-    public int getWidth() {
-        return x;
+    public int getWidth() { // gibt die breite zurück
+        return x; // x
     }
 
-    public int getHeight() {
-        return y;
+    public int getHeight() { // gibt die höhe zurück
+        return y; // y
     }
 
-    public boolean getCell(int zeile, int spalte) {
+    public boolean getCell(int zeile, int spalte) { // gibt den zustand der zelle zurück
         return grid[zeile][spalte];
     }
 
-    public void setCell(int zeile, int spalte, boolean wert) {
+    public void setCell(int zeile, int spalte, boolean wert) { // setzt den zustand der zelle
         grid[zeile][spalte] = wert;
     }
 
-    int anzahlNachbarn(int zeile, int spalte) {
-        int count = 0;
-        if (zeile > 0 && zeile < x && spalte > 0 && spalte < y) {
-            for (int i = zeile - 1; i <= zeile + 1; i++) {
-                for (int j = spalte - 1; j <= spalte + 1; j++) {
+    int anzahlNachbarn(int zeile, int spalte) { // gibt die anzahl der nachbarn zurück
+        int count = 0; // count set to 0
+        if (zeile > 0 && zeile < x && spalte > 0 && spalte < y) { // wenn die zelle nicht an der kante ist
+            for (int i = zeile - 1; i <= zeile + 1; i++) { // für jede spalte der zeichenfläche
+                for (int j = spalte - 1; j <= spalte + 1; j++) { // für jede zeile der zeichenfläche
                     if (i >= 0 && i < x && j >= 0 && j < y) { // check if the cell is within the grid
-                        count += wertZelle(i, j);
+                        count += wertZelle(i, j); // add the value of the cell to the count
                     }
                 }
             }
             count -= wertZelle(zeile, spalte); // subtract the value of the current cell
         }
-        return count;
+        return count; // return the count
     }
 
     int wertZelle(int zeile, int spalte) { // gibt den wert der zelle zurück
@@ -56,10 +56,10 @@ public class GameOfLife {
         }
     }
 
-    int nextState(int zeile, int spalte) {
-        int count = anzahlNachbarn(zeile, spalte);
+    int nextState(int zeile, int spalte) { // gibt den zustand der zelle zurück
+        int count = anzahlNachbarn(zeile, spalte); // anzahl der nachbarn
         if (wertZelle(zeile, spalte) == 0) { // cell is dead
-            if (count == 3) {
+            if (count == 3) { // if the cell has 3 neighbors
                 return 1; // cell becomes alive
             } else {
                 return 0; // cell remains dead
@@ -73,12 +73,12 @@ public class GameOfLife {
         }
     }
 
-    void neueZelle(int zeile, int spalte) {
+    void neueZelle(int zeile, int spalte) { // setzt den zustand der zelle
         int next = nextState(zeile, spalte); // determine the next state of the cell
         setzeZelle(zeile, spalte, next); // set the value of the cell to the next state
     }
 
-    void setzeZelle(int zeile, int spalte, int wert) {
+    void setzeZelle(int zeile, int spalte, int wert) { // setzt den zustand der zelle
         if (wert == 1) { // wenn der wert 1 ist
             gridNew[zeile][spalte] = true; // setze die zelle auf lebendig
         } else { // wenn der wert 0 ist
@@ -108,14 +108,6 @@ public class GameOfLife {
     public void step() {
         berechneNeueGeneration(); // compute the next generation
         updateGrid(); // update the game grid
-    }
-
-    public void randomGrid() { // random grid
-        for (int i = 0; i < x; i++) { // für jede zeile
-            for (int j = 0; j < y; j++) { // für jede spalte
-                grid[i][j] = Math.random() < 0.5; // setze die zelle auf lebendig oder tot
-            }
-        }
     }
 
 }
