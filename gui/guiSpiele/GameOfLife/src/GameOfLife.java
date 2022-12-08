@@ -17,6 +17,22 @@ public class GameOfLife {
     String tot = " "; // tot
 
     // methoden
+    public int getWidth() {
+        return x;
+    }
+
+    public int getHeight() {
+        return y;
+    }
+
+    public boolean getCell(int zeile, int spalte) {
+        return grid[zeile][spalte];
+    }
+
+    public void setCell(int zeile, int spalte, boolean wert) {
+        grid[zeile][spalte] = wert;
+    }
+
     int anzahlNachbarn(int zeile, int spalte) {
         int count = 0;
         if (zeile > 0 && zeile < x && spalte > 0 && spalte < y) {
@@ -88,4 +104,18 @@ public class GameOfLife {
             }
         }
     }
+
+    public void step() {
+        berechneNeueGeneration(); // compute the next generation
+        updateGrid(); // update the game grid
+    }
+
+    public void randomGrid() { // random grid
+        for (int i = 0; i < x; i++) { // für jede zeile
+            for (int j = 0; j < y; j++) { // für jede spalte
+                grid[i][j] = Math.random() < 0.5; // setze die zelle auf lebendig oder tot
+            }
+        }
+    }
+
 }
