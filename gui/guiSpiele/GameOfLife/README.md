@@ -6,7 +6,7 @@ This project implements the [Game of Life](https://en.wikipedia.org/wiki/Conway%
 
 To build and run the project, you will need to have the [Java Development Kit (JDK)](https://openjdk.java.net/) installed on your system.
 
-To build the project, run the following command from the root directory of the project:
+To build the project, you need to run the main class in GameOfLifeGUI.
 
 This will launch the GUI for the Game of Life simulation.
 
