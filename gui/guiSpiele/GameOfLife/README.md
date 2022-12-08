@@ -1,18 +1,25 @@
-## Getting Started
+# Game of Life
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+This project implements the [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) simulation in Java, with a graphical user interface for interacting with the simulation.
 
-## Folder Structure
+## Building and Running
 
-The workspace contains two folders by default, where:
+To build and run the project, you will need to have the [Java Development Kit (JDK)](https://openjdk.java.net/) installed on your system.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+To build the project, run the following command from the root directory of the project:
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+This will launch the GUI for the Game of Life simulation.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## Usage
 
-## Dependency Management
+The GUI allows the user to start and stop the simulation, and to adjust the speed of the simulation. The user can also click on individual cells in the game grid to toggle their state between alive and dead.
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## Examples
+
+Here is an example of the GUI in action:
+
+![Screenshot of Game of Life GUI](screenshot.png)
+
+## License
+
+This project is released under the MIT License. See [LICENSE](LICENSE) for details.
